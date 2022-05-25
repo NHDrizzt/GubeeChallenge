@@ -3,21 +3,24 @@ package testinho.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import testinho.dao.DaoFactory;
 import testinho.dao.LayerInjector;
-import testinho.dao.daoFactory;
-import testinho.db.DbException;
+import testinho.db.ControllerException;
 import testinho.model.Market;
 import testinho.model.Produto;
 import testinho.model.Stack;
-import testinho.service.IProdutoService;
+import testinho.service.ProdutoService;
 
 public class ExibirProdutoCommand extends FrontCommand {
 
-	IProdutoService rs = LayerInjector.getProdutoService();
-	daoFactory df = new daoFactory();
+	ProdutoService produtoService = LayerInjector.getProdutoService();
+	
 	
 	@Override
-	public void process() {
+	public void process(HttpServletRequest request, HttpServletResponse response) {
 
 		List<Market> listMarket = new ArrayList<>();
 		List<Stack> listStack = new ArrayList<>();
@@ -44,16 +47,16 @@ public class ExibirProdutoCommand extends FrontCommand {
 		
 		try {
 			
-			String sqlMarket = rs.sqlMarket(listMarket);
-			String sqlStack = rs.sqlStack(listStack);
+			String sqlMarket = produtoService.sqlMarket(listMarket);
+			String sqlStack = produtoService.sqlStack(listStack);
 				
-			listResult = df.dataImpProxy(sqlMarket, sqlStack);
+			listResult = produtoService.getData(sqlMarket, sqlStack);
 			request.setAttribute("produtos", listResult);
 			
-			forward("exibirProduto");
+			forward("exibirProduto", request, response);
 
 		} catch (Exception e) {
-			throw new DbException(e.getMessage());
+			throw new ControllerException(e.getMessage());
 		
 		}
 	}

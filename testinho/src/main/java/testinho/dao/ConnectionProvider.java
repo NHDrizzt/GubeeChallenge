@@ -2,7 +2,7 @@ package testinho.dao;
 
 import java.sql.Connection;
 
-public interface IConnectionProvider {
+public interface ConnectionProvider {
 	
 	public Connection establishConnection();
 }

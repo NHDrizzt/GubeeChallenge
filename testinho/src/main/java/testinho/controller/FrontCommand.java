@@ -9,21 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public abstract class FrontCommand {
-	
-    protected ServletContext context;
-    protected HttpServletRequest request;
-    protected HttpServletResponse response;
 
-    public void init(
-      HttpServletRequest servletRequest,
-      HttpServletResponse servletResponse) {
-        this.request = servletRequest;
-        this.response = servletResponse;
-    }
+    public abstract void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 
-    public abstract void process() throws ServletException, IOException;
-
-    protected void forward(String target) throws ServletException, IOException {
+    protected void forward(String target, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         target = String.format("%s.jsp", target);
         RequestDispatcher dispatcher = request.getRequestDispatcher(target);
         dispatcher.forward(request, response);

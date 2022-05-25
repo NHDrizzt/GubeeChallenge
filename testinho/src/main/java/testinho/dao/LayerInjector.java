@@ -1,16 +1,16 @@
 package testinho.dao;
 
-import testinho.service.IProdutoService;
 import testinho.service.ProdutoService;
+import testinho.service.ProdutoServiceJdbc;
 
 public class LayerInjector {
 	
-	public static IProdutoRepository getProdutoRepository() {
-		return new ProdutoRepository();
+	public static ProdutoRepository getProdutoRepository() {
+		return new ProdutoRepositoryJdbc();
 	}
 	
-	public static IProdutoService getProdutoService() {
-		return new ProdutoService();
+	public static ProdutoService getProdutoService() {
+		return new ProdutoServiceJdbc();
 	}
 	
 }

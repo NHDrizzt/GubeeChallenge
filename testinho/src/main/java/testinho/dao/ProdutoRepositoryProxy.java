@@ -1,27 +1,45 @@
 package testinho.dao;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 import testinho.annotation.Transaction;
 import testinho.model.Produto;
 
-public class ProdutoRepositoryProxy implements IProdutoRepository {
+public class ProdutoRepositoryProxy implements ProdutoRepository {
 
-	private ProdutoRepository pr;
+	private ProdutoRepositoryJdbc produtoRepositoryJdbc;
 	
-	public ProdutoRepositoryProxy(ProdutoRepository pr) {
-		this.pr = pr;
-	}
-	
-	@Transaction
-	@Override
-	public List<Produto> databaseImplementation(String sqlMarket, String sqlStack) {
-		return pr.databaseImplementation(sqlMarket, sqlStack);
+	public ProdutoRepositoryProxy(ProdutoRepositoryJdbc produtoRepositoryJdbc) {
+		this.produtoRepositoryJdbc = produtoRepositoryJdbc;
 	}
 	
 	public void endData() {
 		System.out.println("Finalizando execução do método : ");
 	}
+	
+	@Transaction
+	@Override
+	public List<Produto> databaseImplementation(String sqlMarket, String sqlStack) {
+		List<Produto> listProd = new ArrayList<>();
+		
+		for(Method method : ProdutoRepositoryProxy.class.getDeclaredMethods()) {
+			if(method.isAnnotationPresent(Transaction.class)) {
+				System.out.println("Iniciando execução do método "+ method.getName());
+		        
+			}
+		}
+		
+		listProd = produtoRepositoryJdbc.databaseImplementation(sqlMarket, sqlStack);
+		if(listProd != null) {
+			endData();
+		}
+		
+		return produtoRepositoryJdbc.databaseImplementation(sqlMarket, sqlStack);
+	}
+	
+	
 	
 
 	
