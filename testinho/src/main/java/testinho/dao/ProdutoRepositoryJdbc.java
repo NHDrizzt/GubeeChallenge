@@ -24,7 +24,7 @@ public class ProdutoRepositoryJdbc implements ProdutoRepository, ConnectionProvi
 
 	@Transaction
 	@Override
-	public List<Produto> databaseImplementation(String sqlMarket, String sqlStack) {
+	public List<Produto> databaseImplementationJdbc(String sqlMarket, String sqlStack) {
 	
 		List<Produto> listResult = new ArrayList<>();
 		Set<Produto> setProd = new LinkedHashSet<>();

@@ -4,16 +4,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import testinho.annotation.Transaction;
-import testinho.dao.ProdutoRepository;
-import testinho.dao.DaoFactory;
-import testinho.dao.LayerInjector;
+import testinho.dao.BancoRepositoryFactory;
+import testinho.dao.DaoRepositoryAbstractFactory;
+import testinho.dao.ProdutoRepositoryJdbc;
 import testinho.model.Market;
 import testinho.model.Produto;
 import testinho.model.Stack;
 
 public class ProdutoServiceJdbc implements ProdutoService {
 
-	ProdutoRepository produtoRepository = DaoFactory.getProdutoRepositoryProxy();
+	DaoRepositoryAbstractFactory daoFactory = new BancoRepositoryFactory();
 	
 	@Override
 	public String sqlMarket(List<Market> mk) {
@@ -37,7 +37,7 @@ public class ProdutoServiceJdbc implements ProdutoService {
 	@Transaction
 	@Override
 	public List<Produto> getData(String sqlMarket, String sqlStack) {
-		return produtoRepository.databaseImplementation(sqlMarket, sqlStack);
+		return daoFactory.criarBancoJdbc().databaseImplementationJdbc(sqlMarket, sqlStack);
 	}
 
 }
