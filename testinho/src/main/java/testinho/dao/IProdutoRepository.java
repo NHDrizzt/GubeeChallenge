@@ -8,4 +8,5 @@ public interface IProdutoRepository {
 	
 	List<Produto> databaseImplementation(String sqlMarket, String sqlStack);
 	
+	void endData();
 }

@@ -1,6 +1,8 @@
 package testinho.servlet;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import testinho.annotation.Transaction;
+import testinho.controller.Command;
 import testinho.dao.IProdutoRepository;
 import testinho.dao.LayerInjector;
 import testinho.model.Market;
@@ -19,16 +23,19 @@ import testinho.model.Stack;
 import testinho.service.IProdutoService;
 
 @WebServlet("/exibirProdutoController")
-public class ExibirProdutoController extends HttpServlet {
+public class ExibirProdutoController extends HttpServlet implements Command {
 	private static final long serialVersionUID = 1L;
 	
 	IProdutoService rs = LayerInjector.getProdutoService();
 	
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		this.doPost(request, response);
+	
 	}
 
+	@Transaction
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -62,12 +69,35 @@ public class ExibirProdutoController extends HttpServlet {
 			
 			listResult = rs.getData(sqlMarket, sqlStack);	
 			request.setAttribute("produtos", listResult);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("exibirProduto.jsp");
-			dispatcher.forward(request, response);
+			String target = "exibirProduto";
+			forward(request,response,target);
 
 		} catch (Exception e) {
 			throw e;
 		}
+	}
+
+	@Override
+	public void forward(HttpServletRequest request, HttpServletResponse response, String target) {
+		target = String.format("%s.jsp", target);
+        RequestDispatcher dispatcher = request.getRequestDispatcher(target);
+        try {
+        	System.out.println("Finalizando execução do método");
+			dispatcher.forward(request, response);
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public void execute(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

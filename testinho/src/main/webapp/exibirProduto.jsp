@@ -14,7 +14,7 @@
 </head>
 <body>
 	<main class="produto">
-		<form action="exibirProduto" method="post" class="produtoForm">
+		<form action="exibirProduto" method="get" class="produtoForm">
 			<div>
 	  			<label for="market">Escolha o market:</label>
 	  			<input type="checkbox" value="Ecommerce" name="anyMarket">Ecommerce

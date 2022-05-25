@@ -3,6 +3,7 @@ package testinho.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import testinho.annotation.Transaction;
 import testinho.dao.IProdutoRepository;
 import testinho.dao.LayerInjector;
 import testinho.model.Market;
@@ -32,6 +33,7 @@ public class ProdutoService implements IProdutoService {
 		return sqlStack;
 	}
 	
+	@Transaction
 	@Override
 	public List<Produto> getData(String sqlMarket, String sqlStack) {
 		return rs.databaseImplementation(sqlMarket, sqlStack);

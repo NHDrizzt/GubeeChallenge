@@ -9,6 +9,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import testinho.annotation.Transaction;
 import testinho.db.DbConnection;
 import testinho.db.DbException;
 import testinho.model.Produto;
@@ -21,6 +22,7 @@ public class ProdutoRepository implements IProdutoRepository, IConnectionProvide
 		return conn;
 	}
 
+	@Transaction
 	@Override
 	public List<Produto> databaseImplementation(String sqlMarket, String sqlStack) {
 	
@@ -64,5 +66,11 @@ public class ProdutoRepository implements IProdutoRepository, IConnectionProvide
 		}
 		
 		return listResult;
+	}
+
+	@Override
+	public void endData() {
+		// TODO Auto-generated method stub
+		
 	}
 }

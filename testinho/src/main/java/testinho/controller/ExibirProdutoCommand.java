@@ -2,7 +2,9 @@ package testinho.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import testinho.dao.LayerInjector;
+import testinho.dao.daoFactory;
 import testinho.db.DbException;
 import testinho.model.Market;
 import testinho.model.Produto;
@@ -12,6 +14,8 @@ import testinho.service.IProdutoService;
 public class ExibirProdutoCommand extends FrontCommand {
 
 	IProdutoService rs = LayerInjector.getProdutoService();
+	daoFactory df = new daoFactory();
+	
 	@Override
 	public void process() {
 
@@ -42,9 +46,10 @@ public class ExibirProdutoCommand extends FrontCommand {
 			
 			String sqlMarket = rs.sqlMarket(listMarket);
 			String sqlStack = rs.sqlStack(listStack);
-			
-			listResult = rs.getData(sqlMarket, sqlStack);	
+				
+			listResult = df.dataImpProxy(sqlMarket, sqlStack);
 			request.setAttribute("produtos", listResult);
+			
 			forward("exibirProduto");
 
 		} catch (Exception e) {

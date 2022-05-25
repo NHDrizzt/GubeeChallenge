@@ -7,4 +7,6 @@ public interface Command {
 
 	public void execute(HttpServletRequest request, HttpServletResponse response);
 	
+	public void forward(HttpServletRequest request, HttpServletResponse response, String target);
+	
 }
