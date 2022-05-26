@@ -21,7 +21,6 @@ public class ProdutoServiceJdbc implements ProdutoService {
 		produtoRepository = factory.criarBanco();
 	}
 	
-	@Override
 	public String sqlMarket(List<Market> mk) {
 		String sqlMarket = String.format("select a.* from myjdbc.produto as a, myjdbc.market as b where a.id = b.produto_id and b.name in (%s) group by id,name,description",
 				mk.stream()
@@ -31,7 +30,6 @@ public class ProdutoServiceJdbc implements ProdutoService {
 		return sqlMarket;
 	}
 
-	@Override
 	public String sqlStack(List<Stack> st) {
 		String sqlStack = String.format("select a.* from myjdbc.produto as a, myjdbc.stack as c where a.id = c.produto_id and c.name in  (%s)  group by id,name,description",
 				 st.stream()
@@ -39,11 +37,10 @@ public class ProdutoServiceJdbc implements ProdutoService {
 	             .collect(Collectors.joining("','", "'", "'")));
 		return sqlStack;
 	}
-	
-	@Transaction
+
 	@Override
-	public List<Produto> getData(String sqlMarket, String sqlStack) {
-		return produtoRepository.databaseImplementation(sqlMarket, sqlStack);
+	public List<Produto> getMarketAndStack(String sqlMarket, String sqlStack) {
+		return produtoRepository.getMarketAndStack(sqlMarket, sqlStack);
 	}
 
 }

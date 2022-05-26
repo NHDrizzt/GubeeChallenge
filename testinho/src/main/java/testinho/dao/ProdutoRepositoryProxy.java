@@ -1,7 +1,6 @@
 package testinho.dao;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 
 import testinho.annotation.Transaction;
@@ -15,44 +14,23 @@ public class ProdutoRepositoryProxy implements ProdutoRepository {
 		this.produtoRepositoryJdbc = produtoRepositoryJdbc;
 	}
 	
-	public void endData() {
-		System.out.println("Finalizando execução do método : ");
-	}
-	
 	@Transaction
 	@Override
-	public List<Produto> databaseImplementation(String sqlMarket, String sqlStack) {
-		List<Produto> listProd = new ArrayList<>();
+	public List<Produto> getMarketAndStack(String sqlMarket, String sqlStack) {
 		
 		for(Method method : ProdutoRepositoryProxy.class.getDeclaredMethods()) {
 			if(method.isAnnotationPresent(Transaction.class)) {
-				System.out.println("Iniciando execução do método "+ method.getName());
-		        
+				System.out.println("Iniciando execução do método "+ method.getName());      
 			}
 		}
 		
-		listProd = produtoRepositoryJdbc.databaseImplementation(sqlMarket, sqlStack);
-		if(listProd != null) {
-			endData();
+		try {
+			return produtoRepositoryJdbc.getMarketAndStack(sqlMarket, sqlStack);
+		}
+		catch(Exception e) {
+			throw e;
 		}
 		
-		return produtoRepositoryJdbc.databaseImplementation(sqlMarket, sqlStack);
 	}
-
-	@Override
-	public Produto findById(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Produto> findAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-	
-
 	
 }

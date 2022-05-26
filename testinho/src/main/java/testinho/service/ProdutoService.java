@@ -7,10 +7,7 @@ import testinho.model.Produto;
 import testinho.model.Stack;
 
 public interface ProdutoService {
-	
-	String sqlMarket(List<Market> mk);
-	
-	String sqlStack(List<Stack> st);
 
-	List<Produto> getData(String sqlMarket, String sqlStack);
+	List<Produto> getMarketAndStack(String sqlMarket, String sqlStack);
+	
 }

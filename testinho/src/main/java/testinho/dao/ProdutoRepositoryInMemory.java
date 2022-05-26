@@ -21,18 +21,9 @@ public class ProdutoRepositoryInMemory implements ProdutoRepository {
 	}
 
 	@Override
-	public List<Produto> databaseImplementation(String sqlMarket, String sqlStack) {
-		return null;
-	}
-	
-	public Produto findById(int id) {
-		 System.out.println(myMap.get(id));
-		return myMap.get(id);
-		
-	}
-	
-	public List<Produto> findAll(){
+	public List<Produto> getMarketAndStack(String sqlMarket, String sqlStack) {
 		List<Produto> list = new ArrayList<Produto>(myMap.values());
 		return list;
 	}
+	
 }

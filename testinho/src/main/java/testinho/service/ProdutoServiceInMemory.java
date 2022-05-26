@@ -17,33 +17,10 @@ public class ProdutoServiceInMemory implements ProdutoService {
 	public ProdutoServiceInMemory(AbstractDaoFactory factory) {
 		produtoRepository = factory.criarBanco();
 	}
-	
 
 	@Override
-	public String sqlMarket(List<Market> mk) {
-		return null;
-	}
-
-	@Override
-	public String sqlStack(List<Stack> st) {
-		return null;
-	}
-
-	@Override
-	public List<Produto> getData(String sqlMarket, String sqlStack) {
-		return null;
-	}
-	
-	public Produto getById(int id) {
-		return produtoRepository.findById(id);
-	}
-	
-	public List<Produto> findAll(){
-		return produtoRepository.findAll();
-	}
-	
-	public void Application(AbstractDaoFactory factory) {
-		
+	public List<Produto> getMarketAndStack(String sqlMarket, String sqlStack) {
+		return produtoRepository.getMarketAndStack(sqlMarket, sqlStack);
 	}
 
 }

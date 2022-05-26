@@ -24,14 +24,15 @@ public class ProdutoRepositoryJdbc implements ProdutoRepository, ConnectionProvi
 
 	@Transaction
 	@Override
-	public List<Produto> databaseImplementation(String sqlMarket, String sqlStack) {
-	
+	public List<Produto> getMarketAndStack(String sqlMarket, String sqlStack) {
+		Produto p;
 		List<Produto> listResult = new ArrayList<>();
 		Set<Produto> setProd = new LinkedHashSet<>();
 				
 		try {
 			Connection conn = establishConnection();
 
+			
 			PreparedStatement psMarket = conn.prepareStatement(sqlMarket);
 			PreparedStatement psStack = conn.prepareStatement(sqlStack);
 			
@@ -39,7 +40,7 @@ public class ProdutoRepositoryJdbc implements ProdutoRepository, ConnectionProvi
 			ResultSet rsStack = psStack.executeQuery();
 			
 			while(rsMarket.next()) {
-				Produto p = new Produto();
+				p = new Produto();
 				p.setId(rsMarket.getInt(1));
 				p.setName(rsMarket.getString(2));
 				p.setDescription(rsMarket.getString(3));
@@ -47,7 +48,7 @@ public class ProdutoRepositoryJdbc implements ProdutoRepository, ConnectionProvi
 				
 			}
 			while(rsStack.next()) {
-				Produto p = new Produto();
+				p = new Produto();
 				p.setId(rsStack.getInt(1));
 				p.setName(rsStack.getString(2));
 				p.setDescription(rsStack.getString(3));
@@ -62,20 +63,10 @@ public class ProdutoRepositoryJdbc implements ProdutoRepository, ConnectionProvi
 		}
 		
 		finally {
+			//DbConnetion.close();
 		}
 		
 		return listResult;
 	}
 
-	@Override
-	public Produto findById(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Produto> findAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

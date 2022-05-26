@@ -57,7 +57,7 @@ public class ExibirProdutoCommand extends FrontCommand {
 			String sqlMarket = produtoServiceJdbc.sqlMarket(listMarket);
 			String sqlStack = produtoServiceJdbc.sqlStack(listStack);
 				
-			listResult = produtoServiceJdbc.getData(sqlMarket, sqlStack);
+			listResult = produtoServiceJdbc.getMarketAndStack(sqlMarket, sqlStack);
 			//p1 = produtoServiceInMemory.getById(id);
 			//listResult.add(p1);
 			//listResult = produtoServiceInMemory.findAll();

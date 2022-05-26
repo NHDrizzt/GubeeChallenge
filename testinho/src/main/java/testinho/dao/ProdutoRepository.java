@@ -6,10 +6,6 @@ import testinho.model.Produto;
 
 public interface ProdutoRepository {
 	
-	List<Produto> databaseImplementation(String sqlMarket, String sqlStack);
-	
-	Produto findById(int id);
-	
-	List<Produto> findAll();
+	List<Produto> getMarketAndStack(String sqlMarket, String sqlStack);
 	
 }
