@@ -4,16 +4,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import testinho.annotation.Transaction;
-import testinho.dao.BancoRepositoryFactory;
-import testinho.dao.DaoRepositoryAbstractFactory;
+import testinho.dao.AbstractDaoFactory;
+import testinho.dao.ProdutoRepository;
 import testinho.dao.ProdutoRepositoryJdbc;
+import testinho.dao.ProdutoRepositoryJdbcFactory;
+import testinho.dao.ProdutoRepositoryProxy;
 import testinho.model.Market;
 import testinho.model.Produto;
 import testinho.model.Stack;
 
 public class ProdutoServiceJdbc implements ProdutoService {
 
-	DaoRepositoryAbstractFactory daoFactory = new BancoRepositoryFactory();
+	ProdutoRepository produtoRepository = new ProdutoRepositoryProxy(new ProdutoRepositoryJdbc());
+	
+	public ProdutoServiceJdbc(AbstractDaoFactory factory) {
+		produtoRepository = factory.criarBanco();
+	}
 	
 	@Override
 	public String sqlMarket(List<Market> mk) {
@@ -37,7 +43,7 @@ public class ProdutoServiceJdbc implements ProdutoService {
 	@Transaction
 	@Override
 	public List<Produto> getData(String sqlMarket, String sqlStack) {
-		return daoFactory.criarBancoJdbc().databaseImplementationJdbc(sqlMarket, sqlStack);
+		return produtoRepository.databaseImplementation(sqlMarket, sqlStack);
 	}
 
 }

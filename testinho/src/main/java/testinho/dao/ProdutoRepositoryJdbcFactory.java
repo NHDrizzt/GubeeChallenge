@@ -3,17 +3,17 @@ package testinho.dao;
 import testinho.service.ProdutoService;
 import testinho.service.ProdutoServiceJdbc;
 
-public class BancoRepositoryFactory implements DaoRepositoryAbstractFactory {
+public class ProdutoRepositoryJdbcFactory implements AbstractDaoFactory {
 
 	@Override
-	public ProdutoRepository criarBancoJdbc() {
+	public ProdutoRepository criarBanco() {
 		return new ProdutoRepositoryProxy(new ProdutoRepositoryJdbc());
 		
 	}
 
 	@Override
-	public ProdutoService criaServicoJdbc() {
-		return new ProdutoServiceJdbc();
+	public ProdutoService criaServico() {
+		return null;
 	}
 
 	

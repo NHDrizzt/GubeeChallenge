@@ -21,7 +21,7 @@ public class ProdutoRepositoryProxy implements ProdutoRepository {
 	
 	@Transaction
 	@Override
-	public List<Produto> databaseImplementationJdbc(String sqlMarket, String sqlStack) {
+	public List<Produto> databaseImplementation(String sqlMarket, String sqlStack) {
 		List<Produto> listProd = new ArrayList<>();
 		
 		for(Method method : ProdutoRepositoryProxy.class.getDeclaredMethods()) {
@@ -31,12 +31,24 @@ public class ProdutoRepositoryProxy implements ProdutoRepository {
 			}
 		}
 		
-		listProd = produtoRepositoryJdbc.databaseImplementationJdbc(sqlMarket, sqlStack);
+		listProd = produtoRepositoryJdbc.databaseImplementation(sqlMarket, sqlStack);
 		if(listProd != null) {
 			endData();
 		}
 		
-		return produtoRepositoryJdbc.databaseImplementationJdbc(sqlMarket, sqlStack);
+		return produtoRepositoryJdbc.databaseImplementation(sqlMarket, sqlStack);
+	}
+
+	@Override
+	public Produto findById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Produto> findAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

@@ -24,7 +24,7 @@ public class ProdutoRepositoryJdbc implements ProdutoRepository, ConnectionProvi
 
 	@Transaction
 	@Override
-	public List<Produto> databaseImplementationJdbc(String sqlMarket, String sqlStack) {
+	public List<Produto> databaseImplementation(String sqlMarket, String sqlStack) {
 	
 		List<Produto> listResult = new ArrayList<>();
 		Set<Produto> setProd = new LinkedHashSet<>();
@@ -68,8 +68,14 @@ public class ProdutoRepositoryJdbc implements ProdutoRepository, ConnectionProvi
 	}
 
 	@Override
-	public void endData() {
+	public Produto findById(int id) {
 		// TODO Auto-generated method stub
-		
+		return null;
+	}
+
+	@Override
+	public List<Produto> findAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
