@@ -16,6 +16,10 @@ import testinho.model.Produto;
 
 public class ProdutoRepositoryJdbc implements ProdutoRepository, ConnectionProvider {
 
+	private Produto p;
+	private static List<Produto> listResult = new ArrayList<>();
+	private static Set<Produto> setProd = new LinkedHashSet<>();
+	
 	@Override
 	public Connection establishConnection() {
 		Connection conn = DbConnection.getConnection();
@@ -25,28 +29,52 @@ public class ProdutoRepositoryJdbc implements ProdutoRepository, ConnectionProvi
 	@Transaction
 	@Override
 	public List<Produto> getMarketAndStack(String sqlMarket, String sqlStack) {
-		Produto p;
-		List<Produto> listResult = new ArrayList<>();
-		Set<Produto> setProd = new LinkedHashSet<>();
 				
 		try {
 			Connection conn = establishConnection();
-
-			
 			PreparedStatement psMarket = conn.prepareStatement(sqlMarket);
 			PreparedStatement psStack = conn.prepareStatement(sqlStack);
 			
-			ResultSet rsMarket = psMarket.executeQuery();
-			ResultSet rsStack = psStack.executeQuery();
+			setProd = getResulSetMarket(psMarket);
+			setProd = getResultSetStack(psStack);
+			listResult.addAll(setProd);
 			
+		}
+		
+		catch(SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		
+		finally {
+			DbConnection.closeConnection();
+		}
+		
+		return listResult;
+	}
+	
+	
+	private Set<Produto> getResulSetMarket(PreparedStatement psMarket) {
+		try {
+			ResultSet rsMarket = psMarket.executeQuery();
 			while(rsMarket.next()) {
 				p = new Produto();
 				p.setId(rsMarket.getInt(1));
 				p.setName(rsMarket.getString(2));
 				p.setDescription(rsMarket.getString(3));
 				setProd.add(p);
-				
 			}
+			rsMarket.close();
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		
+		return setProd;
+	}
+	
+	private Set<Produto> getResultSetStack(PreparedStatement psStack) {
+
+		try {
+			ResultSet rsStack = psStack.executeQuery();
 			while(rsStack.next()) {
 				p = new Produto();
 				p.setId(rsStack.getInt(1));
@@ -55,18 +83,12 @@ public class ProdutoRepositoryJdbc implements ProdutoRepository, ConnectionProvi
 				setProd.add(p);
 			}
 			
-			listResult.addAll(setProd);
-		}
-		
-		catch(SQLException e) {
+			rsStack.close();
+		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		}
 		
-		finally {
-			//DbConnetion.close();
-		}
-		
-		return listResult;
+		return setProd;
 	}
 
 }

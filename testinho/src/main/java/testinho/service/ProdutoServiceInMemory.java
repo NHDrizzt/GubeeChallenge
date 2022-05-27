@@ -10,7 +10,7 @@ import testinho.model.Market;
 import testinho.model.Produto;
 import testinho.model.Stack;
 
-public class ProdutoServiceInMemory implements ProdutoService {
+public class ProdutoServiceInMemory {
 	
 	ProdutoRepository produtoRepository = new ProdutoRepositoryInMemory();
 	
@@ -18,9 +18,9 @@ public class ProdutoServiceInMemory implements ProdutoService {
 		produtoRepository = factory.criarBanco();
 	}
 
-	@Override
-	public List<Produto> getMarketAndStack(String sqlMarket, String sqlStack) {
+	public List<Produto> getMarketAndStack(List<Market> listMarket, List<Stack> listStack) {
+		String sqlMarket = listMarket.toString();
+		String sqlStack = listStack.toString();
 		return produtoRepository.getMarketAndStack(sqlMarket, sqlStack);
 	}
-
 }

@@ -1,8 +1,6 @@
 package testinho.servlet;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,8 +38,8 @@ public class FrontController extends HttpServlet {
             Class type = Class.forName("testinho.controller.ExibirProdutoCommand");
             return (FrontCommand) type.asSubclass(FrontCommand.class).newInstance();
         } catch (Exception e) {
-        	return new UnknownCommand();
+            return new UnknownCommand();
         }
+   
     }
-
 }

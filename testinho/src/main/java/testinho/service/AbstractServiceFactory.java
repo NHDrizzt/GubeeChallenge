@@ -1,7 +1,11 @@
 package testinho.service;
 
+import java.util.List;
+
+import testinho.model.Produto;
+
 public interface AbstractServiceFactory {
 
-	public ProdutoService getData();
+	List<Produto> getMarketAndStack(String sqlMarket, String sqlStack);
 	
 }

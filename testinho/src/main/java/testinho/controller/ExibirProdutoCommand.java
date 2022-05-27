@@ -10,6 +10,7 @@ import testinho.dao.AbstractDaoFactory;
 import testinho.dao.ProdutoRepositoryInMemoryFactory;
 import testinho.dao.ProdutoRepositoryJdbcFactory;
 import testinho.db.ControllerException;
+import testinho.enums.TypeDatabase;
 import testinho.model.Market;
 import testinho.model.Produto;
 import testinho.model.Stack;
@@ -18,21 +19,19 @@ import testinho.service.ProdutoServiceJdbc;
 
 public class ExibirProdutoCommand extends FrontCommand {
 
-	AbstractDaoFactory abstractFactory = new ProdutoRepositoryInMemoryFactory();
-	ProdutoServiceInMemory produtoServiceInMemory = new ProdutoServiceInMemory(abstractFactory);
-	
-	AbstractDaoFactory abstractFactoryJdbc = new ProdutoRepositoryJdbcFactory();
-	ProdutoServiceJdbc  produtoServiceJdbc = new ProdutoServiceJdbc(abstractFactoryJdbc);
+	//AbstractDaoFactory abstractFactory = TypeDatabase.MEMORY.getFactory();
+	//ProdutoServiceInMemory produtoServiceInMemory = new ProdutoServiceInMemory(abstractFactory);
+
+	AbstractDaoFactory abstractDaoFactory = TypeDatabase.JDBC.getFactory();
+	 ProdutoServiceJdbc produtoServiceJdbc = new ProdutoServiceJdbc(abstractDaoFactory);
+
 	
 	@Override
 	public void process(HttpServletRequest request, HttpServletResponse response) {
-
-		Produto p1 = new Produto();
 		List<Market> listMarket = new ArrayList<>();
 		List<Stack> listStack = new ArrayList<>();
 		List<Produto> listResult = new ArrayList<>();
-		int id=2;
-
+		
 		String[] valuesMarket = request.getParameterValues("anyMarket");
 		String[] valuesStack = request.getParameterValues("anyStack");
 		
@@ -53,21 +52,12 @@ public class ExibirProdutoCommand extends FrontCommand {
 		}
 		
 		try {
-			
-			String sqlMarket = produtoServiceJdbc.sqlMarket(listMarket);
-			String sqlStack = produtoServiceJdbc.sqlStack(listStack);
-				
-			listResult = produtoServiceJdbc.getMarketAndStack(sqlMarket, sqlStack);
-			//p1 = produtoServiceInMemory.getById(id);
-			//listResult.add(p1);
-			//listResult = produtoServiceInMemory.findAll();
+			listResult = produtoServiceJdbc.getMarketAndStack(listMarket, listStack);
+			//listResult = produtoServiceInMemory.getMarketAndStack(listMarket, listStack);
 			request.setAttribute("produtos", listResult);
-			
 			forward("exibirProduto", request, response);
-
 		} catch (Exception e) {
 			throw new ControllerException(e.getMessage());
-		
 		}
 	}
 }

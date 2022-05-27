@@ -21,6 +21,13 @@ public class ProdutoServiceJdbc implements ProdutoService {
 		produtoRepository = factory.criarBanco();
 	}
 	
+	@Override
+	public List<Produto> getMarketAndStack(List<Market> listMarket, List<Stack> listStack) {
+		String sqlMarket = sqlMarket(listMarket);
+		String sqlStack = sqlStack(listStack);
+		return produtoRepository.getMarketAndStack(sqlMarket, sqlStack);
+	}
+	
 	public String sqlMarket(List<Market> mk) {
 		String sqlMarket = String.format("select a.* from myjdbc.produto as a, myjdbc.market as b where a.id = b.produto_id and b.name in (%s) group by id,name,description",
 				mk.stream()
@@ -36,11 +43,6 @@ public class ProdutoServiceJdbc implements ProdutoService {
 	             .map(x -> String.valueOf(x))
 	             .collect(Collectors.joining("','", "'", "'")));
 		return sqlStack;
-	}
-
-	@Override
-	public List<Produto> getMarketAndStack(String sqlMarket, String sqlStack) {
-		return produtoRepository.getMarketAndStack(sqlMarket, sqlStack);
 	}
 
 }
