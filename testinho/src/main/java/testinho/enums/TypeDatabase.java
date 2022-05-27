@@ -12,8 +12,6 @@ public enum TypeDatabase {
 
 	AbstractDaoFactory abstractFactory;
 	
-	ProdutoRepository produtoRepository;
-	
 	private TypeDatabase(AbstractDaoFactory factory) {
 		this.abstractFactory = factory;
 	}
