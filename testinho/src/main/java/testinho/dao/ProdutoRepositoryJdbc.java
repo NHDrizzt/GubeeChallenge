@@ -16,7 +16,6 @@ import testinho.model.Produto;
 
 public class ProdutoRepositoryJdbc implements ProdutoRepository, ConnectionProvider {
 
-	private Produto p;
 	private static List<Produto> listResult = new ArrayList<>();
 	private static Set<Produto> setProd = new LinkedHashSet<>();
 	
@@ -48,7 +47,7 @@ public class ProdutoRepositoryJdbc implements ProdutoRepository, ConnectionProvi
 		finally {
 			DbConnection.closeConnection();
 		}
-		
+		System.out.println("hello");
 		return listResult;
 	}
 	
@@ -56,6 +55,7 @@ public class ProdutoRepositoryJdbc implements ProdutoRepository, ConnectionProvi
 	private Set<Produto> getResulSetMarket(PreparedStatement psMarket) {
 		try {
 			ResultSet rsMarket = psMarket.executeQuery();
+			Produto p = new Produto();
 			while(rsMarket.next()) {
 				p = new Produto();
 				p.setId(rsMarket.getInt(1));
@@ -75,6 +75,7 @@ public class ProdutoRepositoryJdbc implements ProdutoRepository, ConnectionProvi
 
 		try {
 			ResultSet rsStack = psStack.executeQuery();
+			Produto p = new Produto();
 			while(rsStack.next()) {
 				p = new Produto();
 				p.setId(rsStack.getInt(1));
