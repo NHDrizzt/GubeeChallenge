@@ -5,15 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import testinho.annotation.Transaction;
-import testinho.db.DbException;
 import testinho.model.Produto;
 
 public class ProdutoRepositoryProxy implements ProdutoRepository {
 
-	private ProdutoRepository produtoRepositoryJdbc;
+	private ProdutoRepository produtoRepository;
 	
-	public ProdutoRepositoryProxy(ProdutoRepositoryJdbc produtoRepositoryJdbc) {
-		this.produtoRepositoryJdbc = produtoRepositoryJdbc;
+	public ProdutoRepositoryProxy(ProdutoRepository produtoRepository) {
+		this.produtoRepository = produtoRepository;
 	}
 	
 	@Override
@@ -22,9 +21,8 @@ public class ProdutoRepositoryProxy implements ProdutoRepository {
 		try {
 			for(Method method : ProdutoRepositoryJdbc.class.getDeclaredMethods()) {
 				if(method.isAnnotationPresent(Transaction.class)) {
-					System.out.println("Iniciando execução do método "+ method.getName());  
-					method.invoke(sqlMarket, sqlStack);
-					listProd = produtoRepositoryJdbc.getMarketAndStack(sqlMarket, sqlStack);	
+					System.out.println("Iniciando execução do método "+ method.getName());
+					listProd = produtoRepository.getMarketAndStack(sqlMarket, sqlStack);
 				}
 				
 			}

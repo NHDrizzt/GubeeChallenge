@@ -34,8 +34,8 @@ public class ProdutoRepositoryJdbc implements ProdutoRepository, ConnectionProvi
 			PreparedStatement psMarket = conn.prepareStatement(sqlMarket);
 			PreparedStatement psStack = conn.prepareStatement(sqlStack);
 			
-			setProd = getResulSetMarket(psMarket);
-			setProd = getResultSetStack(psStack);
+			setProd = getResulSet(psMarket);
+			setProd = getResulSet(psStack);
 			listResult.addAll(setProd);
 			
 		}
@@ -47,17 +47,14 @@ public class ProdutoRepositoryJdbc implements ProdutoRepository, ConnectionProvi
 		finally {
 			DbConnection.closeConnection();
 		}
-		System.out.println("hello");
 		return listResult;
 	}
-	
-	
-	private Set<Produto> getResulSetMarket(PreparedStatement psMarket) {
+
+	private Set<Produto> getResulSet(PreparedStatement psStatement) {
 		try {
-			ResultSet rsMarket = psMarket.executeQuery();
-			Produto p = new Produto();
+			ResultSet rsMarket = psStatement.executeQuery();
 			while(rsMarket.next()) {
-				p = new Produto();
+				Produto	p = new Produto();
 				p.setId(rsMarket.getInt(1));
 				p.setName(rsMarket.getString(2));
 				p.setDescription(rsMarket.getString(3));
@@ -67,29 +64,6 @@ public class ProdutoRepositoryJdbc implements ProdutoRepository, ConnectionProvi
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		}
-		
 		return setProd;
 	}
-	
-	private Set<Produto> getResultSetStack(PreparedStatement psStack) {
-
-		try {
-			ResultSet rsStack = psStack.executeQuery();
-			Produto p = new Produto();
-			while(rsStack.next()) {
-				p = new Produto();
-				p.setId(rsStack.getInt(1));
-				p.setName(rsStack.getString(2));
-				p.setDescription(rsStack.getString(3));
-				setProd.add(p);
-			}
-			
-			rsStack.close();
-		} catch (SQLException e) {
-			throw new DbException(e.getMessage());
-		}
-		
-		return setProd;
-	}
-
 }

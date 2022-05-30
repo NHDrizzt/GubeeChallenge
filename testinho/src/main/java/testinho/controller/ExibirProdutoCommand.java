@@ -23,7 +23,7 @@ public class ExibirProdutoCommand extends FrontCommand {
 	//ProdutoServiceInMemory produtoServiceInMemory = new ProdutoServiceInMemory(abstractFactory);
 
 	AbstractDaoFactory abstractDaoFactory = TypeDatabase.JDBC.getFactory();
-	 ProdutoServiceJdbc produtoServiceJdbc = new ProdutoServiceJdbc(abstractDaoFactory);
+	ProdutoServiceJdbc produtoServiceJdbc = new ProdutoServiceJdbc(abstractDaoFactory);
 
 	
 	@Override
