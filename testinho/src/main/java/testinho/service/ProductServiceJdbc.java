@@ -14,10 +14,6 @@ import testinho.model.Stack;
 public class ProductServiceJdbc implements ProductService {
 
 	private final ProductRepository productRepository;
-
-	public ProductRepository selectFactory(){
-		return new ProductRepositoryJdbc();
-	}
 	public ProductServiceJdbc(AbstractDaoFactory factory) {
 		productRepository = factory.createDatabase();
 	}
