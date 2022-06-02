@@ -1,18 +1,16 @@
 package testinho.model;
 
-import java.util.Objects;
-
-public class Produto {
+public class Product {
 	
 	private int id;
 	private String name;
 	private String description;
 	
-	public Produto() {
+	public Product() {
 		
 	}
 	
-	public Produto(int id, String name, String description) {
+	public Product(int id, String name, String description) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -45,9 +43,9 @@ public class Produto {
 	 @Override
 	    public boolean equals(Object obj) {
 	        // TODO Auto-generated method stub
-	        if(obj instanceof Produto)
+	        if(obj instanceof Product)
 	        {
-	        	Produto temp = (Produto) obj;
+	        	Product temp = (Product) obj;
 	            if(this.name.equals(temp.name) && this.description.equals(temp.description))
 	                return true;
 	        }

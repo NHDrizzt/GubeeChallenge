@@ -16,10 +16,10 @@ public class DbConnection {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/myjdbc?useSSL=false", "root", "root");
 			}
 			catch(SQLException e) {
-				e.printStackTrace();
+				System.out.println("Could not connect to database: " + e.getMessage());
 			}
 			catch(ClassNotFoundException ex) {
-				ex.printStackTrace();
+				System.out.println("Class not found: "+ ex.getMessage());
 			}
 		} 
 		return conn;
@@ -31,7 +31,7 @@ public class DbConnection {
 			conn.close();
 			}
 			catch(SQLException e) {
-				e.printStackTrace();
+				System.out.println("Could not close the connection: " + e.getMessage());
 			}
 		}
 	}

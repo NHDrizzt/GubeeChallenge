@@ -4,16 +4,14 @@ public class Stack {
 	
 	private int id;
 	private String name;
-	
-	public Stack() {
-		
-	}
-	
+
 	public Stack(int id, String name) {
 		this.id = id;
 		this.name = name;
 	}
-
+	public Stack(String name) {
+		this.name = name;
+	}
 	public int getId() {
 		return id;
 	}
@@ -34,7 +32,4 @@ public class Stack {
 	public String toString() {
 		return name;
 	}
-	
-	
-	
 }

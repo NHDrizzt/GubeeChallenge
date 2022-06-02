@@ -1,17 +1,18 @@
 package testinho.enums;
 
 import testinho.dao.AbstractDaoFactory;
-import testinho.dao.ProdutoRepository;
-import testinho.dao.ProdutoRepositoryInMemoryFactory;
-import testinho.dao.ProdutoRepositoryJdbcFactory;
+import testinho.dao.ProductRepository;
+import testinho.dao.ProductRepositoryInMemoryFactory;
+import testinho.dao.ProductRepositoryJdbcFactory;
 
 public enum TypeDatabase {
 
-	JDBC(new ProdutoRepositoryJdbcFactory()),
-	MEMORY(new ProdutoRepositoryInMemoryFactory());
+	JDBC(new ProductRepositoryJdbcFactory()),
+	MEMORY(new ProductRepositoryInMemoryFactory());
 
-	AbstractDaoFactory abstractFactory;
-	
+	final AbstractDaoFactory abstractFactory;
+
+
 	private TypeDatabase(AbstractDaoFactory factory) {
 		this.abstractFactory = factory;
 	}

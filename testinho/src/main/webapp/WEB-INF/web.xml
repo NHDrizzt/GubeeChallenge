@@ -2,12 +2,12 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" version="4.0">
   <display-name>testinho</display-name>
   <servlet>
-  	<servlet-name>exibir</servlet-name>
+  	<servlet-name>showProduct</servlet-name>
   	<servlet-class>testinho.servlet.FrontController</servlet-class>
   </servlet>
   
   <servlet-mapping>
-  	<servlet-name>exibir</servlet-name>
-  	<url-pattern>/exibirProduto</url-pattern>
+  	<servlet-name>showProduct</servlet-name>
+  	<url-pattern>/showProduct</url-pattern>
   </servlet-mapping>
 </web-app>

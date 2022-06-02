@@ -5,13 +5,14 @@ public class Market {
 	private int id;
 	private String name;
 
-	public Market()
-	{
-		
-	}
 
 	public Market(int id, String name) {
 		this.id = id;
+		this.name = name;
+	}
+
+	public Market(String name)
+	{
 		this.name = name;
 	}
 

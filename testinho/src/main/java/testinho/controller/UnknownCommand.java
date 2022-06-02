@@ -10,7 +10,6 @@ public class UnknownCommand extends FrontCommand {
 
 	@Override
 	public void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		forward("exibirProduto", request, response);
-		
+		forward("showProduct", request, response);
 	}
 }

@@ -4,57 +4,40 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import testinho.annotation.Transaction;
 import testinho.db.DbConnection;
 import testinho.db.DbException;
-import testinho.model.Produto;
+import testinho.model.Product;
 
-public class ProdutoRepositoryJdbc implements ProdutoRepository, ConnectionProvider {
-
-	private static List<Produto> listResult = new ArrayList<>();
-	private static Set<Produto> setProd = new LinkedHashSet<>();
-	
+public class ProductRepositoryJdbc implements ProductRepository, ConnectionProvider {
 	@Override
 	public Connection establishConnection() {
-		Connection conn = DbConnection.getConnection();
-		return conn;
+		return DbConnection.getConnection();
 	}
-
 	@Transaction
 	@Override
-	public List<Produto> getMarketAndStack(String sqlMarket, String sqlStack) {
-				
-		try {
-			Connection conn = establishConnection();
+	public Set<Product> listProductByMarketAndStack(String sqlMarket, String sqlStack) {
+		Set<Product> listProduct = new LinkedHashSet<>();
+		try (Connection conn = establishConnection()){
 			PreparedStatement psMarket = conn.prepareStatement(sqlMarket);
 			PreparedStatement psStack = conn.prepareStatement(sqlStack);
-			
-			setProd = getResulSet(psMarket);
-			setProd = getResulSet(psStack);
-			listResult.addAll(setProd);
-			
+			listProduct.addAll(createResulSet(psMarket));
+			listProduct.addAll(createResulSet(psStack));
 		}
-		
 		catch(SQLException e) {
 			throw new DbException(e.getMessage());
 		}
-		
-		finally {
-			DbConnection.closeConnection();
-		}
-		return listResult;
+		return listProduct;
 	}
 
-	private Set<Produto> getResulSet(PreparedStatement psStatement) {
+	private Set<Product> createResulSet(PreparedStatement psStatement) {
+		Set<Product> setProd = new LinkedHashSet<>();
 		try {
 			ResultSet rsMarket = psStatement.executeQuery();
 			while(rsMarket.next()) {
-				Produto	p = new Produto();
+				Product p = new Product();
 				p.setId(rsMarket.getInt(1));
 				p.setName(rsMarket.getString(2));
 				p.setDescription(rsMarket.getString(3));
