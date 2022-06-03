@@ -33,7 +33,8 @@ public class FrontController extends HttpServlet {
     
     private FrontCommand getCommand(HttpServletRequest request) {
         try {
-            Class<?> type = Class.forName(String.format("testinho.controller.%sCommand", request.getParameter("command")));
+            FrontControllerCache front = new FrontControllerCache();
+            Class<?> type = Class.forName(front.commandCacheController(request.getParameter("command")));
             return (FrontCommand) type.asSubclass(FrontCommand.class).newInstance();
         } catch (Exception e) {
             return new UnknownCommand();
