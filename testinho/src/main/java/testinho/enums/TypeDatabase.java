@@ -1,23 +1,31 @@
 package testinho.enums;
 
 import testinho.dao.AbstractDaoFactory;
-import testinho.dao.ProductRepository;
 import testinho.dao.ProductRepositoryInMemoryFactory;
 import testinho.dao.ProductRepositoryJdbcFactory;
+
+import java.lang.reflect.Type;
 
 public enum TypeDatabase {
 
 	JDBC(new ProductRepositoryJdbcFactory()),
-	MEMORY(new ProductRepositoryInMemoryFactory());
+	INMEMORY(new ProductRepositoryInMemoryFactory()),
 
-	final AbstractDaoFactory abstractFactory;
+	DEFAULT();
+	private AbstractDaoFactory abstractFactory;
 
-
-	private TypeDatabase(AbstractDaoFactory factory) {
+	TypeDatabase(AbstractDaoFactory factory) {
 		this.abstractFactory = factory;
 	}
-	
-	public AbstractDaoFactory getFactory() {
+	TypeDatabase() {
+
+	}
+
+	public AbstractDaoFactory getInstance() {
 		return this.abstractFactory;
+	}
+
+	public String getDefaultFactory() {
+		return "JDBC_PRODUCT";
 	}
 }

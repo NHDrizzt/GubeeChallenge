@@ -6,7 +6,9 @@ import java.util.Objects;
 import java.util.Set;
 
 import testinho.annotation.Transaction;
+import testinho.model.Market;
 import testinho.model.Product;
+import testinho.model.Stack;
 
 public class ProductRepositoryProxy implements ProductRepository {
 
@@ -18,13 +20,13 @@ public class ProductRepositoryProxy implements ProductRepository {
 	}
 	
 	@Override
-	public Set<Product> listProductByMarketAndStack(String sqlMarket, String sqlStack) {
+	public Set<Product> listProductByMarketAndStack(List<Market> listMarket, List<Stack> listStack) {
 		Set<Product> listProducts = null;
 		try {
 			Arrays.stream(this.productRepository.getClass().getMethods()).filter(it -> it.isAnnotationPresent(Transaction.class)).findAny().ifPresent(it -> {
 				System.out.println("Iniciando execucao do metodo " + it.getName());
 			});
-			listProducts = productRepository.listProductByMarketAndStack(sqlMarket, sqlStack);
+			listProducts = productRepository.listProductByMarketAndStack(listMarket, listStack);
 		}
 		catch(Exception e){
 			System.out.println("Finalizando execucao do metodo com erro " + e.getMessage());

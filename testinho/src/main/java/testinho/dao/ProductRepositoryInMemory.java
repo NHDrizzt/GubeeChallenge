@@ -40,7 +40,9 @@ public class ProductRepositoryInMemory implements ProductRepository {
 	}
 
 	@Override
-	public Set<Product> listProductByMarketAndStack(String sqlMarket, String sqlStack) {
+	public Set<Product> listProductByMarketAndStack(List<Market> listMarket, List<Stack> listStack) {
+		String sqlMarket = listMarket.toString();
+		String sqlStack = listStack.toString();
 		return new LinkedHashSet<>(myMapProduct.values());
 	}
 }

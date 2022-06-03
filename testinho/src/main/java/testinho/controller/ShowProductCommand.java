@@ -12,25 +12,24 @@ import testinho.model.Market;
 import testinho.model.Product;
 import testinho.model.Stack;
 import testinho.service.ProductService;
-import testinho.service.ProductServiceInMemory;
-import testinho.service.ProductServiceJdbc;
+import testinho.service.ProductServiceGeneric;
 
 public class ShowProductCommand extends FrontCommand {
-	private static final String productType = "JDBC_PRODUCT";
 	@Override
 	public void process(HttpServletRequest request, HttpServletResponse response)  {
 		AbstractDaoFactory abstractDaoFactory;
 		ProductService productService;
 		Set<Product> listResult = null;
+		String productType = TypeDatabase.DEFAULT.getDefaultFactory();
 		try {
 			if(productType.contentEquals("JDBC_PRODUCT")){
-				abstractDaoFactory = TypeDatabase.JDBC.getFactory();
-				productService = new ProductServiceJdbc(abstractDaoFactory);
+				abstractDaoFactory = TypeDatabase.JDBC.getInstance();
+				productService = new ProductServiceGeneric(abstractDaoFactory);
 				listResult = productService.getMarketAndStack(listValuesByMarket(request), listValuesByStack(request));
 			}
 			if(productType.contentEquals("INMEMORY_PRODUCT")){
-				abstractDaoFactory = TypeDatabase.MEMORY.getFactory();
-				productService = new ProductServiceInMemory(abstractDaoFactory);
+				abstractDaoFactory = TypeDatabase.INMEMORY.getInstance();
+				productService = new ProductServiceGeneric(abstractDaoFactory);
 				listResult = productService.getMarketAndStack((listValuesByMarket(request)), listValuesByStack(request));
 			}
 			if(isNotNullOrEmpty(listResult)){
@@ -42,7 +41,7 @@ public class ShowProductCommand extends FrontCommand {
 		}
 	}
 
-	public List<Market> listValuesByMarket(HttpServletRequest request){
+	private List<Market> listValuesByMarket(HttpServletRequest request){
 		List<Market> listOfValues = new ArrayList<>();
 		String[] listOfValuesOfMarket = request.getParameterValues("anyMarket");
 		if(isNotNullOrEmpty(listOfValuesOfMarket)){
@@ -50,7 +49,7 @@ public class ShowProductCommand extends FrontCommand {
 		}
 		return listOfValues;
 	}
-	public List<Stack>  listValuesByStack(HttpServletRequest request){
+	private List<Stack>  listValuesByStack(HttpServletRequest request){
 		List<Stack> listOfValues = new ArrayList<>();
 		String[] listOfValuesOfStack = request.getParameterValues("anyStack");
 		if(isNotNullOrEmpty(listOfValuesOfStack)) {
@@ -58,10 +57,10 @@ public class ShowProductCommand extends FrontCommand {
 		}
 		return listOfValues;
 	}
-	public static boolean isNotNullOrEmpty(String[] list) {
+	private static boolean isNotNullOrEmpty(String[] list) {
 		return list != null && list.length != 0;
 	}
-	public static boolean isNotNullOrEmpty(Set<Product> list) {
+	private static boolean isNotNullOrEmpty(Set<Product> list) {
 		return list != null && !list.isEmpty();
 	}
 }
