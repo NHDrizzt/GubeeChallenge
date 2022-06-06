@@ -12,26 +12,19 @@ import testinho.model.Market;
 import testinho.model.Product;
 import testinho.model.Stack;
 import testinho.service.ProductService;
-import testinho.service.ProductServiceGeneric;
+import testinho.service.ProductServiceImpl;
 
 public class ShowProductCommand extends FrontCommand {
 	@Override
 	public void process(HttpServletRequest request, HttpServletResponse response)  {
 		AbstractDaoFactory abstractDaoFactory;
 		ProductService productService;
-		Set<Product> listResult = null;
-		String productType = TypeDatabase.DEFAULT.getDefaultFactory();
+		Set<Product> listResult;
 		try {
-			if(productType.contentEquals("JDBC_PRODUCT")){
-				abstractDaoFactory = TypeDatabase.JDBC.getInstance();
-				productService = new ProductServiceGeneric(abstractDaoFactory);
-				listResult = productService.getMarketAndStack(listValuesByMarket(request), listValuesByStack(request));
-			}
-			if(productType.contentEquals("INMEMORY_PRODUCT")){
-				abstractDaoFactory = TypeDatabase.INMEMORY.getInstance();
-				productService = new ProductServiceGeneric(abstractDaoFactory);
-				listResult = productService.getMarketAndStack((listValuesByMarket(request)), listValuesByStack(request));
-			}
+			abstractDaoFactory = TypeDatabase.DEFAULT.getDefaultFactory();
+			productService = new ProductServiceImpl(abstractDaoFactory);
+			listResult = productService.getMarketAndStack(listValuesByMarket(request), listValuesByStack(request));
+
 			if(isNotNullOrEmpty(listResult)){
 				request.setAttribute("products", listResult);
 				forward("showProduct", request, response);

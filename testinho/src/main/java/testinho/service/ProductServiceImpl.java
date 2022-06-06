@@ -9,11 +9,11 @@ import testinho.model.Market;
 import testinho.model.Product;
 import testinho.model.Stack;
 
-public class ProductServiceGeneric implements ProductService {
+public class ProductServiceImpl implements ProductService {
 
 	private final ProductRepository productRepository;
 
-	public ProductServiceGeneric(AbstractDaoFactory factory) {
+	public ProductServiceImpl(AbstractDaoFactory factory) {
 		productRepository = factory.createDatabase();
 	}
 

@@ -53,9 +53,9 @@
 					<c:forEach items="${products}" var="item">
 					  <tbody style='border:0'>
 						<tr>
-						  <th style='font-weight:normal' >${item.id}</th>
-						  <th style='font-weight:normal'>${item.name}</th>
-						  <th style='font-weight:normal'>${item.description}</th>
+						  <th style='font-weight:normal' ><c:out value="${item}"/></th>
+						  <th style='font-weight:normal'><c:out value="${item}"/></th>
+						  <th style='font-weight:normal'><c:out value="${item}"/></th>
 						</tr>
 					  </tbody>
 					</c:forEach>

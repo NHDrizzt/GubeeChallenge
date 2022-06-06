@@ -40,10 +40,11 @@ public class ProductRepositoryJdbc implements ProductRepository, ConnectionProvi
 		try {
 			ResultSet rsMarket = psStatement.executeQuery();
 			while(rsMarket.next()) {
-				Product p = new Product();
-				p.setId(rsMarket.getInt(1));
-				p.setName(rsMarket.getString(2));
-				p.setDescription(rsMarket.getString(3));
+				Product p = new Product(
+						rsMarket.getInt(1),
+						rsMarket.getString(2),
+						rsMarket.getString(3)
+				);
 				setProd.add(p);
 			}
 			rsMarket.close();

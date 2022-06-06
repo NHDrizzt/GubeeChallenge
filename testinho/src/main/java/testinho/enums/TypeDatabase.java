@@ -25,7 +25,7 @@ public enum TypeDatabase {
 		return this.abstractFactory;
 	}
 
-	public String getDefaultFactory() {
-		return "JDBC_PRODUCT";
+	public AbstractDaoFactory getDefaultFactory() {
+		return TypeDatabase.JDBC.getInstance();
 	}
 }
