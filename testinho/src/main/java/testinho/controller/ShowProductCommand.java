@@ -24,7 +24,6 @@ public class ShowProductCommand extends FrontCommand {
 			abstractDaoFactory = TypeDatabase.DEFAULT.getDefaultFactory();
 			productService = new ProductServiceImpl(abstractDaoFactory);
 			listResult = productService.getMarketAndStack(listValuesByMarket(request), listValuesByStack(request));
-
 			if(isNotNullOrEmpty(listResult)){
 				request.setAttribute("products", listResult);
 				forward("showProduct", request, response);
